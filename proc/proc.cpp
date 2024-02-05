@@ -1,42 +1,29 @@
-﻿#include <iostream>
-#include <windows.h>
-#include <stdio.h>
-#include <conio.h>
+﻿#include <iostream> // Вызов стандартной библиотеки ввода/вывода в C++.
+#include <windows.h> // Подключение библиотеки Windows API для работы с процессами. 
+
+using namespace std; // Использование Пространства имен std
 
 int main() {
-    setlocale(LC_ALL, "rus");
+    setlocale(LC_ALL, "rus"); // Установка русской локали
 
-    //STARTUPINFO start = { sizeof(start) };
-    //PROCESS_INFORMATION procinfo;
+    STARTUPINFO cif; // Инициализация структуры STARTUPINFO.
+    ZeroMemory(&cif, sizeof(STARTUPINFO)); // обнуление её памяти
 
-    //// Путь к вашей первой программе (программе, которую вы только что написали)
-    //TCHAR CommandLine[] = TEXT("os.exe");
+    PROCESS_INFORMATION pi; // Инициализация структуры PROCESS_INFORMATION для хранения информации о процессе.
 
-    //CreateProcess(NULL, CommandLine, NULL, NULL, FALSE, 0, NULL, NULL, &start, &procinfo);
-
-    //// Дождитесь завершения процесса, чтобы избежать утечек ресурсов
-    //WaitForSingleObject(procinfo.hProcess, INFINITE);
-
-    //// Закрываем дескрипторы процесса и потока
-    //CloseHandle(procinfo.hProcess);
-    //CloseHandle(procinfo.hThread);
-
-    //return 0;
-
-    STARTUPINFO cif;
-    ZeroMemory(&cif, sizeof(STARTUPINFO));
-    PROCESS_INFORMATION pi;
-    TCHAR CommandLine[] = TEXT("os.exe");
+    TCHAR CommandLine[] = TEXT("os.exe"); // Командная строка, указывающая на исполняемый файл "os.exe"
     
+    // Создание процесса с указанными параметрами.
     if (CreateProcess(NULL, CommandLine, NULL, NULL, FALSE, NULL, NULL, NULL, &cif, &pi) == TRUE)
     {
-        std::cout << "Процесс успешно запущен.\n";
-        Sleep(10000);
-        TerminateProcess(pi.hProcess, NO_ERROR);// убрать процесс
+        cout << "Процесс успешно запущен.\n"; // Вывод сообщения пользователю
+        Sleep(10000); // Подождать 10 секунд
+        TerminateProcess(pi.hProcess, NO_ERROR);// Завершение процесса
     }
 
+    // Если условие создание процесса не удалось, выводим сообщение о неудаче
     else
     {
-        std::cout << "Увы, процесс не запустился.";
+        cout << "Увы, процесс не запустился."; // Вывод сообщения пользователю
     }
 }
